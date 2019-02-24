@@ -7,11 +7,14 @@ import { View, Text, Image, ScrollView } from 'react-native'
 
 
 const CandidateItem = (props) =>{
-        
+        console.log(props)
         return(
             <View>
 
-            <Image src={props.photo} alt="" className="candidatePhoto" />
+            <Image  alt=""
+              style={{width: 300, height: 200}}
+              source={{uri: props.photo}}
+            />
             <View>
 
             <Text>Offering: {props.ethOffering} ETH</Text>

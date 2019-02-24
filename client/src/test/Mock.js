@@ -14,14 +14,17 @@ import Proposal from '../flow-typed/proposal'
 import Web3 from 'web3' // import web3 v1.0 constructor
 
 
-let accountsUtils:Accounts
-let web3:Web3
+
 export class Mock {
     //iddao: IDDao
-    
+    accountsUtils:Accounts
+    web3:Web3
+    loremPicsum:Array<string>
+
     constructor() {
         this.web3 = new Web3(Web3.givenProvider)
         this.accountsUtils = new Accounts(this.web3.currentProvider)
+        this.loremPicsum = [{"format":"jpeg","width":5616,"height":3744,"filename":"0000_yC-Yzbqy7PY.jpeg","id":0,"author":"Alejandro Escamilla","author_url":"https://unsplash.com/@alejandroescamilla","post_url":"https://unsplash.com/photos/yC-Yzbqy7PY"},{"format":"jpeg","width":5616,"height":3744,"filename":"0001_LNRyGwIJr5c.jpeg","id":1,"author":"Alejandro Escamilla","author_url":"https://unsplash.com/@alejandroescamilla","post_url":"https://unsplash.com/photos/LNRyGwIJr5c"},{"format":"jpeg","width":5616,"height":3744,"filename":"0002_N7XodRrbzS0.jpeg","id":2,"author":"Alejandro Escamilla","author_url":"https://unsplash.com/@alejandroescamilla","post_url":"https://unsplash.com/photos/N7XodRrbzS0"},{"format":"jpeg","width":5616,"height":3744,"filename":"0003_Dl6jeyfihLk.jpeg","id":3,"author":"Alejandro Escamilla","author_url":"https://unsplash.com/@alejandroescamilla","post_url":"https://unsplash.com/photos/Dl6jeyfihLk"},{"format":"jpeg","width":5616,"height":3744,"filename":"0004_y83Je1OC6Wc.jpeg","id":4,"author":"Alejandro Escamilla","author_url":"https://unsplash.com/@alejandroescamilla","post_url":"https://unsplash.com/photos/y83Je1OC6Wc"},{"format":"jpeg","width":5245,"height":3497,"filename":"0005_LF8gK8-HGSg.jpeg","id":5,"author":"Alejandro Escamilla","author_url":"https://unsplash.com/@alejandroescamilla","post_url":"https://unsplash.com/photos/LF8gK8-HGSg"},{"format":"jpeg","width":5616,"height":3744,"filename":"0006_tAKXap853rY.jpeg","id":6,"author":"Alejandro Escamilla","author_url":"https://unsplash.com/@alejandroescamilla","post_url":"https://unsplash.com/photos/tAKXap853rY"},{"format":"jpeg","width":4728,"height":3168,"filename":"0007_BbQLHCpVUqA.jpeg","id":7,"author":"Alejandro Escamilla","author_url":"https://unsplash.com/@alejandroescamilla","post_url":"https://unsplash.com/photos/BbQLHCpVUqA"},{"format":"jpeg","width":5616,"height":3744,"filename":"0008_xII7efH1G6o.jpeg","id":8,"author":"Alejandro Escamilla","author_url":"https://unsplash.com/@alejandroescamilla","post_url":"https://unsplash.com/photos/xII7efH1G6o"},{"format":"jpeg","width":5616,"height":3672,"filename":"0009_ABDTiLqDhJA.jpeg","id":9,"author":"Alejandro Escamilla","author_url":"https://unsplash.com/@alejandroescamilla","post_url":"https://unsplash.com/photos/ABDTiLqDhJA"},]
       /*  this.BlockstackUsersData = []
         this.web3 = Utils.getWeb3()
         */
@@ -97,7 +100,7 @@ export class Mock {
 
             //let ethOffering = 10*(10^(i*-1)),
             let ethOffering = 0.056
-            let contentUrl = "http://www.cds.caltech.edu/~macmardg/Photos/NZ/images/img00"+i+".jpg"
+            let contentUrl = 'https://picsum.photos/200/300'
             let facebook = "https://www.facebook.com/person"+i+"/"
             let twitter = "https://twitter.com/person"+i+"/"
             let linkedin = "https://www.linkedin.com/person"+i+"/"
@@ -112,9 +115,7 @@ export class Mock {
                     decentralizedID: "did:btc-addr:1FQiWSZjZHE1kqm4QDp8e1XvhAbyPXU2hr",
                     hubUrl: "https://hub.blockstack.org",
                     identityAddress: "1FQiWSZjZHE1kqm4QDp8e1XvhAbyPXU2hr",
-                    image:[{
-                        contentUrl,
-                    }],
+                    photo:contentUrl,
                     profile: {
                         type: "Person",
                         context: "http://schema.org",

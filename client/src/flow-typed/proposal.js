@@ -22,9 +22,7 @@ type Proposal =  {
     decentralizedID: string,
     hubUrl: string,
     identityAddress: string,
-    image:[{
-        contentUrl:string,
-    }],
+    photo:string,
     profile: Profile,
     username:string,
     firstname:string,

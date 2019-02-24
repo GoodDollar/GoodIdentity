@@ -12,7 +12,6 @@ type State = {
     proposalsLoaded:boolean,
     showPaymentTitle:string,
     selectedCandidate:Proposal,
-    candidatesList:Array<Proposal>,
     candidates:Array<Proposal>
 }
 
@@ -40,13 +39,12 @@ class Vouch extends React.Component<Props, State> {
         
         //let proposals = await Daostack.getProposals()
         let allProposals:Array<Proposal> = proposals.map((proposal,idx) => {
-            let photo:string = _.get(proposal,"profile.image[0].contentUrl","https://scontent.fhfa1-2.fna.fbcdn.net/v/t1.0-1/45418652_2141102242636679_111588077893320704_n.jpg?_nc_cat=107&_nc_ht=scontent.fhfa1-2.fna&oh=e66ce7906c5bacc8947662a8f1c35be5&oe=5C415570")
             
             // console.log({firstName})
             return {
                 id:idx,
                 proposalId:proposal.proposalId,
-                photo,
+                photo:proposal.photo,
                 firstname:proposal.firstname,
                 lastname:proposal.lastname,
                 username:proposal.username,
@@ -56,7 +54,7 @@ class Vouch extends React.Component<Props, State> {
           })
           
           this.setState((state, props) => ({
-            candidatesList: allProposals
+            candidates: allProposals
         }));
         return allProposals
      }
@@ -79,9 +77,9 @@ class Vouch extends React.Component<Props, State> {
 
    }
 
-    updateSelectedCandidate = (candidate) =>{
+    updateSelectedCandidate = (candidate:Proposal) =>{
         this.setState((state, props) => ({
-            selectedCandidate: 'candidate'
+            selectedCandidate: candidate
         }));
 
     }
@@ -89,7 +87,7 @@ class Vouch extends React.Component<Props, State> {
     returnFromPayment = () =>{
       this.updateSelectedCandidate(undefined)
       this.setState((state, props) => ({
-            showPaymentTitle: undefined
+            showPaymentTitle: ''
         }));
     }
 
@@ -97,8 +95,11 @@ class Vouch extends React.Component<Props, State> {
 
     render() {
         console.log("this.state.showPaymentTitle="+this.state.showPaymentTitle)
-        const candidatesList = this.state.candidates
+     
+        const candidates = this.state.candidates
+        console.log(candidates)
         const candidate = this.state.selectedCandidate || this.state.candidates[0];
+        console.log(candidate)
 
         return(
             <View>
@@ -106,7 +107,7 @@ class Vouch extends React.Component<Props, State> {
                 <Button title='Vouch' onPress={()=>this.Vouch()}>Vouch</Button>
                 <br />
                 <Button title='Fake' onPress={()=>this.Fake()}>Fake</Button>
-                <CandidateSelector isOpen={true} candidates={candidatesList} slideHandler={this.updateSelectedCandidate} isVoter={false} />
+                <CandidateSelector isOpen={true} candidates={candidates} slideHandler={this.updateSelectedCandidate} isVoter={false} />
             </View>
         )
         /*
@@ -123,7 +124,7 @@ class Vouch extends React.Component<Props, State> {
 
            (this.state.showPaymentTitle==undefined) && (<div>
                 <p className="topHeader">Vouch if profile is real and earn GEN</p>
-                <CandidatesSelector isOpen={true} candidates={candidatesList} slideHandler={this.updateSelectedCandidate} isVoter={false} />
+                <CandidatesSelector isOpen={true} candidates={candidates} slideHandler={this.updateSelectedCandidate} isVoter={false} />
 
                 <div className="innerFlex">
                     <Grid container spacing={0} justify="center">
