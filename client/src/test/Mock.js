@@ -7,14 +7,18 @@ import ethUtils from 'ethereumjs-util'
 //import Utils from '/imports/Utils.js
 import { Accounts } from 'web3-eth-accounts'
 import stripHexPrefix from 'strip-hex-prefix'
+import Proposal from '../flow-typed/proposal'
 //import WebsocketProvider from 'web3-providers-ws'
 //import Web3PromieEvent from 'web3-core-promievent'
 //import {promisifyTxHash} from '/imports/web3utils.js'
 import Web3 from 'web3' // import web3 v1.0 constructor
 
+
+let accountsUtils:Accounts
+let web3:Web3
 export class Mock {
     //iddao: IDDao
-
+    
     constructor() {
         this.web3 = new Web3(Web3.givenProvider)
         this.accountsUtils = new Accounts(this.web3.currentProvider)
@@ -30,7 +34,7 @@ export class Mock {
 
     }
 
-    getBytes32FromIpfsHash(ipfsListing) {
+    getBytes32FromIpfsHash(ipfsListing:string) {
          return "0x"+bs58.decode(ipfsListing).slice(2).toString('hex')
     }
 /*
@@ -71,12 +75,13 @@ export class Mock {
     }*/
 
 
-    mockProposals = async () => {
+    mockProposals = async ():Promise<Array<Proposal>> => {
 
+    //mockProposals =  ():Array<Proposal> => {
 
         let fee = 0.1
         
-        let proposals = []
+        let proposals:Array<Proposal> = []
         for (let i = 0; i < 4; i++) {
             let account = this.accountsUtils.create();
             console.log("mocking proposal "+i)
@@ -147,8 +152,9 @@ export class Mock {
             //let res = await this.register(ipfsData, fee)
             //let res = await this.iddao.register(ipfsData, fee)
             // console.log('wrote identity to dao', { res })
-            return proposals
+            
         }
+        return Promise.resolve(proposals)
     }
 }
 

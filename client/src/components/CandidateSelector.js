@@ -30,11 +30,6 @@ const CandidateItem = (props) =>{
 }
 
 
-
-
-
-
-
 const CandidatesSelector = (props) => {
 
   
