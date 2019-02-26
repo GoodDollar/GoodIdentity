@@ -9,6 +9,6 @@ browse http://localhost:3000/
 ## To add express development server:
 `cd client`
 
-`npm run start`
+`npm run web`
 
 browse http://localhost:3001/
