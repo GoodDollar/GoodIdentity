@@ -9,8 +9,7 @@ import IPFS from 'ipfs-mini'
 import Shared from './Shared'
 // $FlowFixMe
 import ethUtils from 'ethereumjs-util'
-import deprecated from 'deprecated-decorator';
-import UserStoredData from '../flow-typed/UserStoredData'
+import type UserStoredData from '../flow-typed/proposal'
 
 // $FlowFixMe
 import Web3PromieEvent from 'web3-core-promievent'
@@ -165,7 +164,7 @@ export default class IDDao extends Shared {
   /*
     write profile to identity dao and pay fee
   */
- @deprecated('otherMethodExists')
+
   async registerDepracated(userData:UserStoredData, feeAmount:number): Promise<[typeof Web3PromieEvent]> {
     let dataBuffer = Buffer.from(JSON.stringify(userData))
 

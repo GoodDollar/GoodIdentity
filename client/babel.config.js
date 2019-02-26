@@ -16,7 +16,5 @@ module.exports = function(api) {
         }
       }]
     ],
-
-    
   };
 };

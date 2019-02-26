@@ -19,7 +19,6 @@
   },
   "proxy": "http://localhost:3001",
   "dependencies": {
-    "@babel/plugin-proposal-class-properties": "^7.3.0",
     "@expo/vector-icons": "^9.0.0",
     "acorn-globals": "^4.3.0",
     "blockstack": "^18.3.0",
