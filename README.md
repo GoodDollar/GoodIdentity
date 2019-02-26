@@ -1,5 +1,6 @@
 # GoodIdentity
 
+Features & Version planning: https://docs.google.com/document/d/1qxxtUjBXROuGUBVSb1SVIKdMIeaSERtETON5ZE0Q8rk/edit
 ## run project
 
 `npm run start`
