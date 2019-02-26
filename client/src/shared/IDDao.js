@@ -9,6 +9,8 @@ import IPFS from 'ipfs-mini'
 import Shared from './Shared'
 // $FlowFixMe
 import ethUtils from 'ethereumjs-util'
+import deprecated from 'deprecated-decorator';
+import UserStoredData from '../flow-typed/UserStoredData'
 
 // $FlowFixMe
 import Web3PromieEvent from 'web3-core-promievent'
@@ -18,15 +20,17 @@ import GenesisContract from './blockchain/build/contracts/GenesisProtocol.json'
 
 const CONTRACTS_DISABLED = false
 export default class IDDao extends Shared {
-
-  web3: Web3;
+  
+  ipfs:IPFS
+  web3: Web3
   pkey: string
   addr: string
   gasPrice: number
   netword_id: number
+  walletOwnerAccount:{}  
   walletOwnerPubKey: Buffer
   walletOwnerAddress:Buffer
-  walletOwnerAccount:{}
+  identityContract:IdentityContract
 
   constructor(pkey: string) {
     super()
@@ -161,36 +165,37 @@ export default class IDDao extends Shared {
   /*
     write profile to identity dao and pay fee
   */
-  async register(ipfsData, feeAmount): Promise<[typeof Web3PromieEvent]> {
-    let dataBuffer = Buffer.from(JSON.stringify(ipfsData))
+ @deprecated('otherMethodExists')
+  async registerDepracated(userData:UserStoredData, feeAmount:number): Promise<[typeof Web3PromieEvent]> {
+    let dataBuffer = Buffer.from(JSON.stringify(userData))
 
-    // 1. Hash the user data
+    // 1. Create a promise that writes the data to IPFS
     let ipfsPromise = new Promise((resolve, reject) => {
-      this.ipfs.addJSON(ipfsData, (err, result) => {
+      this.ipfs.addJSON(userData, (err, result) => {
         if (err) reject(err)
         else resolve(result)
       })
     }
     )
 
-    // 2. Convert the hashed ips data to Byte32
-    let ipfsByte32 = await ipfsPromise.then(hash => this.getBytes32FromIpfsHash(hash))
-    console.log({ ipfsByte32 })
+    // 2. Convert the IPFS user data location (hash) as byte32
+    let dataLocationByte32 = await ipfsPromise.then(ipfsLoctionHash => this.getBytes32FromIpfsHash(ipfsLoctionHash))
+    console.log({ dataLocationByte32 })
 
     let amount = this.web3.utils.toWei(feeAmount.toString(), "ether");
-    let gas = 400000//await this.identityContract.methods.proposeProfile(ipfsByte32).estimateGas({from:this.walletOwner})
+    let gas = 400000//await this.identityContract.methods.proposeProfile(dataLocationByte32).estimateGas({from:this.walletOwner})
     let gasPrice = (await this.gasPrice) * 1.5
     console.log({ gas, gasPrice, amount })
 
     /* 3. Send TX: identity.propse for this ipfsProfile. This will:
-          a. Raise (log) event on the blockchain with this IPFS profile which is now considered a proposal (helpful in the future to load all proposals)
-          b. Insert proposal to Daostack mechanism in order to support Daostack feature.
+          a. Raise (log) event on the blockchain with this IPFS profile which is now considered a proposal (helpful in the future to load all proposals) - TODO: imporve to use DAostack latest version
+          b. Insert proposal to Daostack voting system so it would appear to predictors and voters.
     */
     let balance = await this.web3.eth.getBalance(this.web3.eth.defaultAccount)
     console.log("balance for account.",this.walletOwnerAddress,balance)
     console.log({amount})
     if (balance > 0) {
-      let txHash = await this.identityContract.methods.proposeProfile(ipfsByte32).send({
+      let txHash = await this.identityContract.methods.proposeProfile(dataLocationByte32).send({
         from:this.web3.eth.defaultAccount,
         gasPrice,
         gas,
@@ -207,6 +212,11 @@ export default class IDDao extends Shared {
 
   }
 
+  register(userData:UserStoredData, feeAmount:number): string {
+
+    return "TODO"
+  }
+
   async vouch(proposalId, genAmount) {
     console.log("gencontract vouch call", proposalId, genAmount)
     // let gas = await this.GENContract.methods.approve(GenesisContract.address,genAmount).estimateGas()
@@ -221,13 +231,13 @@ export default class IDDao extends Shared {
     return txPromise
   }
 
-  async getProposalProfileIPFS(ipfsByte32) {
+  async getProposalProfileIPFS(dataLocationByte32) {
 
-    let ipfsHash = this.getIpfsHashFromBytes32(ipfsByte32)
-    console.log("getting ipfs file for:", ipfsByte32, ipfsHash)
+    let ipfsHash = this.getIpfsHashFromBytes32(dataLocationByte32)
+    console.log("getting ipfs file for:", dataLocationByte32, ipfsHash)
     return new Promise((reject, resolve) => {
       this.ipfs.catJSON(ipfsHash, (err, result) => {
-        console.log("got ipfs response for:", ipfsByte32, ipfsHash, err, result)
+        console.log("got ipfs response for:", dataLocationByte32, ipfsHash, err, result)
         if (err) {
           console.log("error ipfs", err)
           reject(err)

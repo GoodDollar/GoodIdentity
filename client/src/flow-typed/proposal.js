@@ -31,5 +31,10 @@ type Proposal =  {
   
 }
 
+type UserStoredData = {
+    userDataHash: string, // The hashed data of the user at the point of creating this instance
+    dataPath: string, // A path to the user profile in a third party (V1.0: GunDB)
+}
+
 
 
