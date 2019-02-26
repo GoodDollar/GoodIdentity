@@ -58,7 +58,7 @@ const CandidatesSelector = (props) => {
   return (
   
     <View>
-      <ScrollView onScroll={((index, indexLatest, meta)=>props.slideHandler(candidates[index].props))}>
+      <ScrollView horizontal="true" onScroll={((index, indexLatest, meta)=>props.slideHandler(candidates[index].props))}>
         {candidates}
       </ScrollView>
 

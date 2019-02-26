@@ -87,7 +87,7 @@ export class Mock {
         let proposals:Array<Proposal> = []
         for (let i = 0; i < 4; i++) {
             let account = this.accountsUtils.create();
-            console.log("mocking proposal "+i)
+            //console.debug("mocking proposal "+i)
             //let iddao = Daostack.init(stripHexPrefix(account.privateKey))
             //this.iddao = iddao
     
