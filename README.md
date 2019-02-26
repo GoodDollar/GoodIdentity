@@ -2,9 +2,8 @@
 
 ## V0.1 Goals
 Create structure project in the GitHub for the community
-> Project contains server side and client side
-> Project is transferred from Hackathon project, and added with:
-
+Project contains server side and client side
+Project is transferred from Hackathon project, and added with:
 Express (replacing Meteor)
 React-native readiness - components and code replacement
 Full Flow support
