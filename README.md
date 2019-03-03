@@ -16,6 +16,9 @@ Project contains server side and client side
 *Welcome Screen*  
 *Vouch Screen*  
 *Vote Screen*  
+*OneOfUs Screen*  
+*Candidates Selector component*  
+*Payment component*  
   
 ## run project
 
