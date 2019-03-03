@@ -12,6 +12,7 @@ import CandidateSelector from './CandidateSelector'
 type State = {
     proposalsLoaded:boolean,
     stakeType:string,
+    stakeValue:number,
     selectedCandidate:Proposal,
     candidates:Array<Proposal>
 }
@@ -26,6 +27,7 @@ class Vouch extends React.Component<Props, State> {
     state = {
         proposalsLoaded:false,
         stakeType:'',
+        stakeValue:0,
         candidates: [],
         selectedCandidate:{},
         candidatesList:[],
@@ -81,7 +83,7 @@ class Vouch extends React.Component<Props, State> {
     updateSelectedCandidate = (candidate:Proposal) =>{
         this.setState((state, props) => ({
             selectedCandidate: candidate
-        }));
+        }),console.log('updated selected candidate ',{candidate}));
 
     }
 
@@ -92,7 +94,17 @@ class Vouch extends React.Component<Props, State> {
         }));
     }
 
-
+    handlePaymentChange = (e:Event) =>{
+        e.preventDefault()
+        e.persist()
+        this.setState((state, props) => ({
+            stakeValue: e.nativeEvent.text
+        }));
+    }
+ 
+    handlePaymentSubmit = () =>{
+        console.log({"stakeValue":this.state.stakeValue});
+    }
 
     render() {
     
@@ -111,7 +123,7 @@ class Vouch extends React.Component<Props, State> {
                 <br />
                 <Button title='Fake' onPress={()=>this.Fake()}>Fake</Button>
                 
-                <VouchPayment stakeType={stakeType} candidate={candidate}></VouchPayment>
+                <VouchPayment stakeType={stakeType} candidate={candidate} handleChange={this.handlePaymentChange} handleSubmit={this.handlePaymentSubmit}></VouchPayment>
             </View>
         )
         /*
