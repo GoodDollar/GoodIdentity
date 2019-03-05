@@ -57,7 +57,8 @@ class Vouch extends React.Component<Props, State> {
           })
           
           this.setState((state, props) => ({
-            candidates: allProposals
+            candidates: allProposals,
+            selectedCandidate:allProposals[0]?allProposals[0]:undefined
         }));
         return allProposals
      }
