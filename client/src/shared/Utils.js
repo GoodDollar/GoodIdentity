@@ -10,19 +10,69 @@ export class Utils {
         patch: string
     }
 
-  constructor() {
-      this.init()
+
+  async init(){
+      console.log('initializing Utils & web3..')
+      this.web3 = await this.getWeb3()
+      console.log('web3 initialized')
   }
 
-  init(){
-      //this.web3 = window.web3; // depracated
-      this.web3 = new Web3(Web3.givenProvider || "ws://localhost:8546");
-        console.log("Web3.givenProvider",Web3.givenProvider);
-        if (!Web3.givenProvider)
-            console.log("ws://localhost:8546")
-  }
 
-  getWeb3(){
+  getWeb3 = () =>
+  new Promise((resolve, reject) => {
+    let web3Provider = undefined
+    //let useWebSocket = Meteor.settings.public.useWebSocket //TODO: change to config
+    let useWebSocket = true
+
+    // Wait for loading completion to avoid race conditions with web3 injection timing.
+    window.addEventListener("load", async () => {
+      // Modern dapp browsers...
+      if (window.ethereum) {
+        const web3 = new Web3(window.ethereum);
+        try {
+          // Request account access if needed
+          await window.ethereum.enable();
+          // Acccounts now exposed
+          resolve(web3);
+        } catch (error) {
+          reject(error);
+        }
+      }
+      // Legacy dapp browsers...
+      else if (window.web3) {
+        // Use Mist/MetaMask's provider.
+        const web3 = window.web3;
+        console.log("Injected web3 detected.");
+        resolve(web3);
+      }
+      // Fallback to localhost; use dev console port by default...
+      else {
+      
+    //TODO: change to config
+        //let network_id = Meteor.settings.public.network_id
+        let network_id = 42
+        let provider
+        if (useWebSocket){
+            // provider = Meteor.settings.public.websocketWeb3Provider + Secrets.ethereum[network_id].infura.api_key
+            //TODO: change to config
+            provider = "wss://kovan.infura.io/ws" + Secrets.ethereum[network_id].infura.api_key
+            web3Provider = new Web3.providers.WebsocketProvider(provider);
+        }else{
+            //TODO: change to config
+            provider = "https://kovan.infura.io/v3/" + Secrets.ethereum[network_id].infura.api_key
+            web3Provider = new Web3.providers.HttpProvider(provider);
+        }
+        console.log("new web3 from provider:"+provider);
+        const web3 = new Web3(provider);
+        resolve(web3)
+
+      }
+    });
+  });
+
+
+
+  getWeb3Old(){
     
     let web3Provider = undefined
     //let useWebSocket = Meteor.settings.public.useWebSocket //TODO: change to config
@@ -84,7 +134,6 @@ absoluteUrl = (function() {
 })();
 
 }
-
 
 
 

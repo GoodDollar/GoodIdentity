@@ -7,7 +7,7 @@ import ethUtils from 'ethereumjs-util'
 //import Utils from '/imports/Utils.js
 import { Accounts } from 'web3-eth-accounts'
 import stripHexPrefix from 'strip-hex-prefix'
-import Proposal from '../flow-typed/proposal'
+import Proposal from '../flow-typed/identityDaoTypes'
 //import WebsocketProvider from 'web3-providers-ws'
 //import Web3PromieEvent from 'web3-core-promievent'
 //import {promisifyTxHash} from '/imports/web3utils.js'

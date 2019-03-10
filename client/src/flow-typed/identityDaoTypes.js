@@ -14,8 +14,8 @@ type SocialMedia = {
         github:string,
 }
 
-type Proposal =  {
-    ethOffering: Number,
+type Profile =  {
+    publicKey: string,
     appPrivateKey: string,
     authResponseToken: string,
     coreSessionToken: string,
@@ -23,12 +23,27 @@ type Proposal =  {
     hubUrl: string,
     identityAddress: string,
     photo:string,
-    profile: Profile,
     username:string,
     firstname:string,
     lastname:string,
     socialMedia:SocialMedia
-  
+ 
+}
+
+type idProposal =  {
+    ethOffering: Number,
+    publicKey: string,
+    hashed_profile:string,
+}
+
+type UserProfile = {
+    profile: string, // The profile
+    hashed_profile: string, // The hashed data of the user at the point of creating this instance
+}
+
+const emptyUserProfile = {
+    profile: '', 
+    hashed_profile:'',
 }
 
 type UserStoredData = {

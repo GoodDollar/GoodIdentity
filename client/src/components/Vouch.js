@@ -4,7 +4,7 @@ import React from 'react'
 import Store from '../store/Store'
 import {Mock} from './../test/Mock'
 import VouchPayment from './VouchPayment'
-import Proposal from '../flow-typed/proposal'
+import Proposal from '../flow-typed/identityDaoTypes'
 import { View, Image, Button } from 'react-native'
 import CandidateSelector from './CandidateSelector'
 

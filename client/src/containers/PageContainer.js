@@ -6,9 +6,8 @@ import React, { Component } from 'react'
 import Vouch from '../components/Vouch'
 import Welcome from '../components/Welcome'
 import OneOfUs from '../components/OneOfUs'
+import Register from '../components/Register'
 import type { StoreProps } from '../store/Store'
-
-
 
   
 
@@ -33,9 +32,9 @@ class PageContainer extends Component<StoreProps> {
         return (
             <View>
                 <Route exact path="/" component={Welcome} />
-                <Route exact path="/register" component={Welcome} />
                 <Route exact path="/oneOfUs" component={OneOfUs} />
                 <Route exact path="/vouch" component={Vouch} />
+                <Route exact path="/register" component={Register} />
 
 
           </View>
@@ -44,5 +43,5 @@ class PageContainer extends Component<StoreProps> {
 }
 
 
-export default Store.withStore((PageContainer))
+export default Store.withStore(PageContainer)
 
