@@ -1,5 +1,5 @@
-require("babel-polyfill");
-require("babel-register")({
+require("@babel/polyfill");
+require("@babel/register")({
   "presets": ["env"],
   "plugins": ["syntax-async-functions","transform-regenerator"],
   ignore: /node_modules\/(?!openzeppelin-solidity)/
