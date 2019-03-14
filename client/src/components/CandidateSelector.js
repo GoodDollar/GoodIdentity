@@ -1,5 +1,6 @@
 
 import React from 'react'
+import Gun from 'gun/gun'
 import './styles/CandidateSelector.css'
 //import Socialset from '../../Socialset'
 

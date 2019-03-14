@@ -1,6 +1,7 @@
 // @flow
 import _ from 'lodash'
 import React from 'react'
+import Gun from 'gun/gun'
 import Store from '../store/Store'
 import Utils from '../shared/Utils'
 import { Text,TextInput } from 'react-native'
@@ -31,7 +32,7 @@ class Register extends React.Component<Props, State> {
 
     async componentDidMount() {
         let userAddress:string
-        await Utils.getWeb3()    
+        await Utils.init()    
         //userAddress = await Utils.web3.eth.getAccounts()
         window.web3.eth.getAccounts((error, accounts) => {
 

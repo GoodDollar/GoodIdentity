@@ -1,5 +1,6 @@
 //@flow
-import Web3 from 'web3' // import web3 v1.0 constructor
+import Web3 from 'web3'
+import Gun from 'gun/gun'
 import Secrets from './Secrets.json'
  
 export class Utils {
@@ -15,6 +16,9 @@ export class Utils {
       console.log('initializing Utils & web3..')
       this.web3 = await this.getWeb3()
       console.log('web3 initialized')
+
+      var gun = Gun(['http://localhost:8765/gun', 'https://gunjs.herokuapp.com/gun']);
+
   }
 
 
