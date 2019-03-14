@@ -1,10 +1,12 @@
 // @flow
 import Gun from 'gun'
 import SEA from 'gun/sea'
-import conf from '../config/server.config'
+import console from 'console'
 import { stringify } from 'querystring'
 import express, { Router } from 'express'
+import conf from '../config/server.config'
 import logger from '../imports/pino-logger'
+
 //import { type StorageAPI, type UserRecord } from '../../imports/types'
 
 
@@ -163,5 +165,5 @@ class GunDB {
 const GunDBPrivate = new GunDB()
 
 GunDBPrivate.init(null, conf.gundbPassword, 'identitydb')
-
+console.log('GunDBPrivate created')
 export { setup, GunDBPrivate , GunDB }
