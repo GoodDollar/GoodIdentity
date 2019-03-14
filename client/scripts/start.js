@@ -16,7 +16,6 @@ require('../config/env');
 const fs = require('fs');
 const chalk = require('chalk');
 const webpack = require('webpack');
-console.log({webpack})
 const WebpackDevServer = require('webpack-dev-server');
 const clearConsole = require('react-dev-utils/clearConsole');
 const checkRequiredFiles = require('react-dev-utils/checkRequiredFiles');
@@ -78,7 +77,11 @@ checkBrowsers(paths.appPath, isInteractive)
     const appName = require(paths.appPackageJson).name;
     const urls = prepareUrls(protocol, HOST, port);
     // Create a webpack compiler that is configured with custom messages.
-    const compiler = createCompiler(webpack, config, appName, urls, useYarn);
+    
+    console.log({webpack})
+    //const compiler = createCompiler(webpack, config, appName, urls, useYarn);
+    const compiler = createCompiler({webpack, config, appName, urls, useYarn});
+    console.log('here')
     // Load proxy config
     const proxySetting = require(paths.appPackageJson).proxy;
     const proxyConfig = prepareProxy(proxySetting, paths.appPublic);
