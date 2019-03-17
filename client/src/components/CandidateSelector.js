@@ -1,5 +1,6 @@
 
 import React from 'react'
+import Gun from 'gun/gun'
 import './styles/CandidateSelector.css'
 //import Socialset from '../../Socialset'
 
@@ -58,7 +59,7 @@ const CandidatesSelector = (props) => {
   return (
   
     <View>
-      <ScrollView onScroll={((index, indexLatest, meta)=>props.slideHandler(candidates[index].props))}>
+      <ScrollView horizontal={true} pagination={true} onScroll={((index, indexLatest, meta)=>props.slideHandler(candidates[index].props))}>
         {candidates}
       </ScrollView>
 

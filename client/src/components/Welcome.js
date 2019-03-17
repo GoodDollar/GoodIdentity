@@ -6,7 +6,7 @@ import Store from '../store/Store'
 import type { StoreProps } from '../../store/Store'
 
 type Props = {
-    registered: string,     
+    registered: bool,     
     onPressVote: (event: any) => void,
     onPressRegister: (event: any) => void,
     onPressVouch:(event: any) => void,
@@ -28,7 +28,7 @@ const onPressRegister = (event) => {
 
 class Welcome extends React.Component<Props> {
     static defaultProps = {
-        registered: "false"
+        registered: false
       };
 
     constructor(){
@@ -50,11 +50,11 @@ class Welcome extends React.Component<Props> {
                 <br />
                 <Button onPress={onPressVouch} title="Vouch and earn">Vouch and earn</Button>
                 <br />
-                {(registered === "true") &&
+                {(registered) &&
                     <Button onPress={onPressVote} title="Vote">Vote</Button>
                 }
 
-                    {(registered === "false") &&
+                    {(!registered) &&
                     <Button onPress={onPressRegister} title="Register">Register</Button>
                 }
 

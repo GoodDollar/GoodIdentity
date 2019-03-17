@@ -1,16 +1,18 @@
 // @flow
 import _ from 'lodash'
-import React from 'react';
-import {Mock} from './../test/Mock'
+import React from 'react'
 import Store from '../store/Store'
-//import {Payment} from '../Payment'
-import Proposal from '../flow-typed/proposal'
+import {Mock} from './../test/Mock'
+import VouchPayment from './VouchPayment'
+import Proposal from '../flow-typed/identityDaoTypes'
 import { View, Image, Button } from 'react-native'
 import CandidateSelector from './CandidateSelector'
 
+
 type State = {
     proposalsLoaded:boolean,
-    showPaymentTitle:string,
+    stakeType:string,
+    stakeValue:number,
     selectedCandidate:Proposal,
     candidates:Array<Proposal>
 }
@@ -24,7 +26,8 @@ class Vouch extends React.Component<Props, State> {
 
     state = {
         proposalsLoaded:false,
-        showPaymentTitle:'',
+        stakeType:'',
+        stakeValue:0,
         candidates: [],
         selectedCandidate:{},
         candidatesList:[],
@@ -54,7 +57,8 @@ class Vouch extends React.Component<Props, State> {
           })
           
           this.setState((state, props) => ({
-            candidates: allProposals
+            candidates: allProposals,
+            selectedCandidate:allProposals[0]?allProposals[0]:undefined
         }));
         return allProposals
      }
@@ -66,13 +70,13 @@ class Vouch extends React.Component<Props, State> {
 
     Vouch = () => {
         this.setState((state, props) => ({
-            showPaymentTitle: 'Vouch'
+            stakeType: 'Vouch'
         }));
     }
 
     Fake = () =>{
         this.setState((state, props) => ({
-            showPaymentTitle: 'Fake'
+            stakeType: 'Fake'
         }));
 
    }
@@ -80,34 +84,47 @@ class Vouch extends React.Component<Props, State> {
     updateSelectedCandidate = (candidate:Proposal) =>{
         this.setState((state, props) => ({
             selectedCandidate: candidate
-        }));
+        }),console.log('updated selected candidate ',{candidate}));
 
     }
 
     returnFromPayment = () =>{
       this.updateSelectedCandidate(undefined)
       this.setState((state, props) => ({
-            showPaymentTitle: ''
+            stakeType: ''
         }));
     }
 
-
+    handlePaymentChange = (e:Event) =>{
+        e.preventDefault()
+        e.persist()
+        this.setState((state, props) => ({
+            stakeValue: e.nativeEvent.text
+        }));
+    }
+ 
+    handlePaymentSubmit = () =>{
+        console.log({"stakeValue":this.state.stakeValue});
+    }
 
     render() {
-        console.log("this.state.showPaymentTitle="+this.state.showPaymentTitle)
-     
+    
         const candidates = this.state.candidates
-        console.log(candidates)
+        console.log({candidates})
         const candidate = this.state.selectedCandidate || this.state.candidates[0];
-        console.log(candidate)
+        console.log({candidate})
+        const stakeType = this.state.stakeType
+        console.log({stakeType})
 
         return(
             <View>
                 <p className="topHeader">Vouch if profile is real and earn GEN</p>
+                <CandidateSelector isOpen={true} candidates={candidates} slideHandler={this.updateSelectedCandidate} isVoter={false} />
                 <Button title='Vouch' onPress={()=>this.Vouch()}>Vouch</Button>
                 <br />
                 <Button title='Fake' onPress={()=>this.Fake()}>Fake</Button>
-                <CandidateSelector isOpen={true} candidates={candidates} slideHandler={this.updateSelectedCandidate} isVoter={false} />
+                
+                <VouchPayment stakeType={stakeType} candidate={candidate} handleChange={this.handlePaymentChange} handleSubmit={this.handlePaymentSubmit}></VouchPayment>
             </View>
         )
         /*
@@ -117,12 +134,12 @@ class Vouch extends React.Component<Props, State> {
         const candidate = this.state.selectedCandidate || this.props.candidates[0];
         return (
             
-            ((this.state.showPaymentTitle=="Vouche")&&(<Payment type="Vouche" candidate={candidate} returnFromPayment={this.returnFromPayment}></Payment>))||
-            ((this.state.showPaymentTitle=="Fake")&&(<Payment type="Fake" candidate={candidate} returnFromPayment={this.returnFromPayment}></Payment>)) ||
+            ((this.state.stakeType=="Vouche")&&(<Payment type="Vouche" candidate={candidate} returnFromPayment={this.returnFromPayment}></Payment>))||
+            ((this.state.stakeType=="Fake")&&(<Payment type="Fake" candidate={candidate} returnFromPayment={this.returnFromPayment}></Payment>)) ||
 
 
 
-           (this.state.showPaymentTitle==undefined) && (<div>
+           (this.state.stakeType==undefined) && (<div>
                 <p className="topHeader">Vouch if profile is real and earn GEN</p>
                 <CandidatesSelector isOpen={true} candidates={candidates} slideHandler={this.updateSelectedCandidate} isVoter={false} />
 
