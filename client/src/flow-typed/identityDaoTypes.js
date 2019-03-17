@@ -1,10 +1,3 @@
-type Profile =  {
-        type: string,
-        context: string,
-        apps: {
-            http: string
-        }
-}
 
 type SocialMedia = {
         facebook:string,

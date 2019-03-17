@@ -1,7 +1,10 @@
 //@flow
 import Web3 from 'web3'
+import bs58 from 'bs58'
 import Gun from 'gun/gun'
+import IPFS from 'ipfs-mini'
 import Secrets from './Secrets.json'
+import stripHexPrefix from 'strip-hex-prefix'
  
 export class Utils {
     web3:Object
@@ -16,8 +19,6 @@ export class Utils {
       console.log('initializing Utils & web3..')
       this.web3 = await this.getWeb3()
       console.log('web3 initialized')
-
-      var gun = Gun(['http://localhost:8765/gun', 'https://gunjs.herokuapp.com/gun']);
 
   }
 
@@ -74,7 +75,28 @@ export class Utils {
     });
   });
 
+  // Return bytes32 hex string from base58 encoded ipfs hash,
+  // stripping leading 2 bytes from 34 byte IPFS hash
+  // Assume IPFS defaults: function:0x12=sha2, size:0x20=256 bits
+  // E.g. "QmNSUYVKDSvPUnRLKmuxk9diJ6yS96r1TrAXzjTiBcCLAL" -->
+  // "0x017dfd85d4f6cb4dcd715a88101f7b1f06cd1e009b2327a0809d01eb9c91f231"
+getBytes32FromData(data) {
+  return "0x" + bs58.decode(data).slice(2).toString('hex')
+}
 
+// Return base58 encoded ipfs hash from bytes32 hex string,
+// E.g. "0x017dfd85d4f6cb4dcd715a88101f7b1f06cd1e009b2327a0809d01eb9c91f231"
+// --> "QmNSUYVKDSvPUnRLKmuxk9diJ6yS96r1TrAXzjTiBcCLAL"
+
+getDataFromBytes32(bytes32Hex) {
+  // Add our default ipfs values for first 2 bytes:
+  // function:0x12=sha2, size:0x20=256 bits
+  // and cut off leading "0x"
+  const hashHex = "1220" + bytes32Hex.slice(2)
+  const hashBytes = Buffer.from(hashHex, 'hex');
+  const hashStr = bs58.encode(hashBytes)
+  return hashStr
+}
 
   getWeb3Old(){
     
