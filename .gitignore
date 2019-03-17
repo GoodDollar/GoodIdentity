@@ -4,6 +4,7 @@
 # dependencies
 node_modules/
 client/node_modules/
+client/TEMP_*
 client/src/shared/Secrets.json
 client/.pnp
 client/.pnp.js

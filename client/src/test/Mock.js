@@ -2,9 +2,8 @@
 import _ from 'lodash'
 import bs58 from 'bs58'
 import IPFS from 'ipfs-mini'
-//import blockstack from 'blockstack'
 import ethUtils from 'ethereumjs-util'
-//import Utils from '/imports/Utils.js
+import Utils from './../shared/Utils'
 import { Accounts } from 'web3-eth-accounts'
 import stripHexPrefix from 'strip-hex-prefix'
 import Proposal from '../flow-typed/identityDaoTypes'
@@ -16,69 +15,22 @@ import Web3 from 'web3' // import web3 v1.0 constructor
 
 
 export class Mock {
-    //iddao: IDDao
     web3:Web3
     loremPicsum:Array<string>
 
     constructor() {
-        this.web3 = new Web3(Web3.givenProvider)
+        this.init()
         this.loremPicsum = [{"format":"jpeg","width":5616,"height":3744,"filename":"0000_yC-Yzbqy7PY.jpeg","id":0,"author":"Alejandro Escamilla","author_url":"https://unsplash.com/@alejandroescamilla","post_url":"https://unsplash.com/photos/yC-Yzbqy7PY"},{"format":"jpeg","width":5616,"height":3744,"filename":"0001_LNRyGwIJr5c.jpeg","id":1,"author":"Alejandro Escamilla","author_url":"https://unsplash.com/@alejandroescamilla","post_url":"https://unsplash.com/photos/LNRyGwIJr5c"},{"format":"jpeg","width":5616,"height":3744,"filename":"0002_N7XodRrbzS0.jpeg","id":2,"author":"Alejandro Escamilla","author_url":"https://unsplash.com/@alejandroescamilla","post_url":"https://unsplash.com/photos/N7XodRrbzS0"},{"format":"jpeg","width":5616,"height":3744,"filename":"0003_Dl6jeyfihLk.jpeg","id":3,"author":"Alejandro Escamilla","author_url":"https://unsplash.com/@alejandroescamilla","post_url":"https://unsplash.com/photos/Dl6jeyfihLk"},{"format":"jpeg","width":5616,"height":3744,"filename":"0004_y83Je1OC6Wc.jpeg","id":4,"author":"Alejandro Escamilla","author_url":"https://unsplash.com/@alejandroescamilla","post_url":"https://unsplash.com/photos/y83Je1OC6Wc"},{"format":"jpeg","width":5245,"height":3497,"filename":"0005_LF8gK8-HGSg.jpeg","id":5,"author":"Alejandro Escamilla","author_url":"https://unsplash.com/@alejandroescamilla","post_url":"https://unsplash.com/photos/LF8gK8-HGSg"},{"format":"jpeg","width":5616,"height":3744,"filename":"0006_tAKXap853rY.jpeg","id":6,"author":"Alejandro Escamilla","author_url":"https://unsplash.com/@alejandroescamilla","post_url":"https://unsplash.com/photos/tAKXap853rY"},{"format":"jpeg","width":4728,"height":3168,"filename":"0007_BbQLHCpVUqA.jpeg","id":7,"author":"Alejandro Escamilla","author_url":"https://unsplash.com/@alejandroescamilla","post_url":"https://unsplash.com/photos/BbQLHCpVUqA"},{"format":"jpeg","width":5616,"height":3744,"filename":"0008_xII7efH1G6o.jpeg","id":8,"author":"Alejandro Escamilla","author_url":"https://unsplash.com/@alejandroescamilla","post_url":"https://unsplash.com/photos/xII7efH1G6o"},{"format":"jpeg","width":5616,"height":3672,"filename":"0009_ABDTiLqDhJA.jpeg","id":9,"author":"Alejandro Escamilla","author_url":"https://unsplash.com/@alejandroescamilla","post_url":"https://unsplash.com/photos/ABDTiLqDhJA"},]
-      /*  this.BlockstackUsersData = []
-        this.web3 = Utils.getWeb3()
-        */
-       
-
         
     }
 
-    init() {
-
+    async init() {
+         this.web3 = await Utils.getWeb3()
     }
-
-    getBytes32FromIpfsHash(ipfsListing:string) {
-         return "0x"+bs58.decode(ipfsListing).slice(2).toString('hex')
-    }
-/*
-    async register(ipfsData,feeAmount):Promise<[typeof Web3PromieEvent]> {
-            let dataBuffer = Buffer.from(JSON.stringify(ipfsData))
-            let ipfsPromise = new Promise((resolve,reject) => {
-            this.iddao.ipfs.addJSON(ipfsData,(err,result) => {
-                if(err) reject(err)
-                else resolve(result)
-            })
-            }
-
-
-            )
-            let ipfsByte32 = await ipfsPromise.then(hash => this.getBytes32FromIpfsHash(hash))
-            console.log({ipfsByte32})
-
-            let amount= this.web3.utils.toWei(feeAmount.toString(), "ether");
-            let gas = 400000//await this.identityContract.methods.proposeProfile(ipfsByte32).estimateGas({from:this.addr})
-            let gasPrice = (await this.iddao.gasPrice)*1.5
-            console.log({gas,gasPrice,amount})
-            console.log("proposing from:",ipfsData.address.address)
-            let txHash = this.iddao.identityContract.methods.proposeProfile(ipfsByte32).send({
-                from:ipfsData.address.address,
-                gasPrice,
-                gas,
-                value: amount
-            })
-
-            txHash.then(res=>{
-                console.log("Registered profile to DAO",res)
-            }).catch(err=>{
-                console.error(err)
-            })
-            
-            return txHash
-
-    }*/
 
 
     mockProposals = async ():Promise<Array<Proposal>> => {
 
-    //mockProposals =  ():Array<Proposal> => {
 
         let fee = 0.1
         

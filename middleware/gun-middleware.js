@@ -47,7 +47,7 @@ class GunDB {
     this.serverName = name
     return new Promise((resolv, reject) => {
       this.user.create('goodidentity', password, createres => {
-        log.info('Created gundb GoodDollar User', { name })
+        log.info('Created gundb GoodIdentity User', { name })
         this.user.auth('goodidentity', password, async authres => {
           log.info('Authenticated GunDB user:', { name })
           this.usersCol = this.user.get('users')
@@ -162,8 +162,6 @@ class GunDB {
   }
 }*/
 }
-const GunDBPrivate = new GunDB()
+const GunDBPublic = new GunDB()
 
-GunDBPrivate.init(null, conf.gundbPassword, 'identitydb')
-console.log('GunDBPrivate created')
-export { setup, GunDBPrivate , GunDB }
+export { setup, GunDBPublic , GunDB }
