@@ -25,12 +25,12 @@ export class Mock {
     }
 
     async init() {
-         this.web3 = await Utils.getWeb3()
+        this.web3 = await Utils.getWeb3()
+        console.log("Mock initialized")
     }
 
 
     mockProposals = async ():Promise<Array<Proposal>> => {
-
 
         let fee = 0.1
         

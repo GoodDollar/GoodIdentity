@@ -2,7 +2,7 @@
 import _ from 'lodash'
 import React from 'react'
 import Store from '../store/Store'
-import {Mock} from './../test/Mock'
+import Mock from './../test/Mock'
 import VouchPayment from './VouchPayment'
 import Proposal from '../flow-typed/identityDaoTypes'
 import { View, Image, Button } from 'react-native'
@@ -35,7 +35,7 @@ class Vouch extends React.Component<Props, State> {
 
     constructor(props:Props) {
         super(props);
-        console.log('Vouch Screen loaded')
+        console.log('Vouch Screen loaded') // That doesn't ensure Mock will initiate web3 in time for the call to Mock.mockProposals (which is using web3) on componentDidMount, but for now it's good enough as it is mock .
     }
 
     loadCandidatesData = (proposals:Array<Proposal>) => {
@@ -64,8 +64,8 @@ class Vouch extends React.Component<Props, State> {
      }
 
     componentDidMount() {
-        let mock = new Mock()
-        mock.mockProposals().then(proposals => this.loadCandidatesData(proposals))
+         Mock.init().then(x=>Mock.mockProposals().then(proposals => this.loadCandidatesData(proposals)))
+        //Mock.mockProposals().then(proposals => this.loadCandidatesData(proposals))
     }
 
     Vouch = () => {

@@ -23,8 +23,8 @@ export class Utils {
   }
 
 
-  getWeb3 = () =>
-  new Promise((resolve, reject) => {
+  getWeb3 = () =>{
+  return new Promise((resolve, reject) => {
     let web3Provider = undefined
     //let useWebSocket = Meteor.settings.public.useWebSocket //TODO: change to config
     let useWebSocket = true
@@ -73,7 +73,8 @@ export class Utils {
 
       }
     });
-  });
+  })
+};
 
   // Return bytes32 hex string from base58 encoded ipfs hash,
   // stripping leading 2 bytes from 34 byte IPFS hash
